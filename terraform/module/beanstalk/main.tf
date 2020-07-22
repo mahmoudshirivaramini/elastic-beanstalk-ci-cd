@@ -511,6 +511,7 @@ resource "aws_elastic_beanstalk_environment" "default" {
   wait_for_ready_timeout = var.wait_for_ready_timeout
   version_label          = var.version_label
   tags                   = local.tags
+
   dynamic "setting" {
     for_each = local.elb_settings_final
     content {
@@ -898,7 +899,7 @@ data "aws_iam_policy_document" "elb_logs" {
     ]
 
     resources = [
-      "arn:aws:s3:::${module.label.id}-eb-loadbalancer-logs-test09911/*"
+      "arn:aws:s3:::${module.label.id}-eb-loadbalancer-logs/*"
     ]
 
     principals {
@@ -912,7 +913,7 @@ data "aws_iam_policy_document" "elb_logs" {
 
 resource "aws_s3_bucket" "elb_logs" {
   count         = var.tier == "WebServer" ? 1 : 0
-  bucket        = "${module.label.id}-eb-loadbalancer-logs-test09911"
+  bucket        = "${module.label.id}-eb-loadbalancer-logs"
   acl           = "private"
   force_destroy = var.force_destroy
   policy        = join("", data.aws_iam_policy_document.elb_logs.*.json)

@@ -52,6 +52,7 @@ module "elastic_beanstalk_environment" {
   region                     = var.region
   availability_zone_selector = var.availability_zone_selector
   dns_zone_id                = var.dns_zone_id
+  dns_subdomain              = var.dns_subdomain
 
   wait_for_ready_timeout             = var.wait_for_ready_timeout
   elastic_beanstalk_application_name = module.elastic_beanstalk_application.elastic_beanstalk_application_name
@@ -85,16 +86,25 @@ module "elastic_beanstalk_environment" {
   rolling_update_type     = var.rolling_update_type
   updating_min_in_service = var.updating_min_in_service
   updating_max_batch      = var.updating_max_batch
-
+  
   healthcheck_url  = var.healthcheck_url
   application_port = var.application_port
 
   // https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html
   // https://docs.aws.amazon.com/elasticbeanstalk/latest/platforms/platforms-supported.html#platforms-supported.docker
   solution_stack_name = var.solution_stack_name
-
+  loadbalancer_certificate_arn = module.acm_request_certificate.arn
+  loadbalancer_ssl_policy = "ELBSecurityPolicy-2016-08"
   additional_settings = var.additional_settings
   env_vars            = module.rds_instance.full_string
+}
+
+module "acm_request_certificate" {
+  source                            = "git::https://github.com/cloudposse/terraform-aws-acm-request-certificate.git?ref=master"
+  domain_name                       = "example.com"
+  process_domain_validation_options = true
+  ttl                               = "300"
+  subject_alternative_names         = ["*.example.com"]
 }
 
 module "rds_instance" {

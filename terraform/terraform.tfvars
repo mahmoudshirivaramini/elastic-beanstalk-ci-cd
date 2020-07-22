@@ -2,13 +2,13 @@ region = "us-east-1"
 
 availability_zones = ["us-east-1a", "us-east-1b"]
 
-namespace = "abt-cicd"
+namespace = "prod"
 
 stage = "prod"
 
-name = "abt-prod"
+name = "prod"
 
-description = "productio eb"
+description = "production grade env"
 
 tier = "WebServer"
 
@@ -64,7 +64,9 @@ solution_stack_name = "64bit Amazon Linux 2018.03 v2.20.4 running Multi-containe
 
 version_label = ""
 
-dns_zone_id = "Z3SO0TKDDQ0RGG"
+dns_subdomain = "prod"
+
+dns_zone_id = "Z069421310N3KON3186GW"
 
 additional_settings = [
   {

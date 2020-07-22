@@ -1,7 +1,7 @@
-#output "hostname" {
-#  value       = module.dns_hostname.hostname
-#  description = "DNS hostname"
-#}
+output "hostname" {
+  value       = module.dns_hostname.hostname
+  description = "DNS hostname"
+}
 
 output "id" {
   description = "ID of the Elastic Beanstalk environment"
