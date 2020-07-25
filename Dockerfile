@@ -44,6 +44,5 @@ RUN curl -s http://getcomposer.org/installer | php && \
     mv composer.phar /usr/local/bin/composer
 
 RUN apt-get clean
-RUN rm -rf /etc/nginx/sites-enabled
 
 RUN sed -e 's/;clear_env = no/clear_env = no/' -i /etc/php/7.1/fpm/pool.d/www.conf
